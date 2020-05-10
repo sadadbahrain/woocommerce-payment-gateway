@@ -254,17 +254,19 @@ function sadad_init_gateway_class() {
             $order->payment_complete();
             $order->reduce_order_stock();
             $order->update_status('processing');
-			
-			global $woocommerce;
-			$mailer = WC()->mailer();
-			$mails = $mailer->get_emails();
-			if ( ! empty( $mails ) )
-				foreach ( $mails as $mail )
-					if ( $mail->id == 'customer_completed_order' )
-					   $mail->trigger( $orderId );
+            global $woocommerce;
+            
+            /*
+	    $mailer = WC()->mailer();
+            $mails = $mailer->get_emails();
+                if ( ! empty( $mails ) )
+                    foreach ( $mails as $mail )
+                        if ( $mail->id == 'customer_completed_order' )
+                            $mail->trigger( $orderId );
+            */
             header("Location: ".$redirect_url = $this->get_return_url($order));
             }
-		}
+        }
 		
         public function payment_failure() {
         // Getting POST data
