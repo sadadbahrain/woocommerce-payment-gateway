@@ -1,4 +1,4 @@
-=== WooCommerce - SADDED By SADAD WooCommerce Payment Gateway ===
+=== SADDED By SADAD Payment Gateway ===
 Contributors: danial
 Tags: woocommerce, payment gateway, country, countries, payment gateways, country payment, sadded, sadad, sadadbahrain
 Requires at least: 5.0
