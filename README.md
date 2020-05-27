@@ -1,4 +1,4 @@
-# SADDED By SADAD WooCommerce Payment Gateway
+# SADDED By SADAD Payment Gateway
 
 A plugin for WooCommerce that enables you to configure SADDED Payment Gateway by SADAD Bahrain.
 Copyright (c) SADAD Bahrain.
