@@ -137,7 +137,7 @@ function sadad_init_gateway_class()
         public function validate_fields()
         {
 
-            if (empty($_POST['billing_first_name']))
+            if (empty(sanitize_text_field($_POST['billing_first_name'])))
             {
                 wc_add_notice('First name is required!', 'error');
                 return false;
@@ -266,7 +266,7 @@ function sadad_init_gateway_class()
             // Getting POST data
             $postData = file_get_contents('php://input');
             $response = json_decode($postData);
-            $orderId = $_GET['orderId'];
+            $orderId = sanitize_text_field($_GET['orderId']);
             $order = wc_get_order($orderId);
 
             if ($order)
@@ -284,7 +284,7 @@ function sadad_init_gateway_class()
             // Getting POST data
             $postData = file_get_contents('php://input');
             $response = json_decode($postData);
-            $orderId = $_GET['orderId'];
+            $orderId = sanitize_text_field($_GET['orderId']);
             $order = wc_get_order($orderId);
 
             if ($order)
