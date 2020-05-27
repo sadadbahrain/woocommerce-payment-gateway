@@ -57,6 +57,9 @@ function sadad_init_gateway_class()
                 $this,
                 'payment_scripts'
             ));
+			
+			add_action( 'woocommerce_api_sadded_payment_success', array( $this, 'sadded_payment_success' ) );
+			add_action( 'woocommerce_api_sadded_payment_failure', array( $this, 'sadded_payment_failure' ) );
 
         }
 
@@ -228,8 +231,8 @@ function sadad_init_gateway_class()
                 'date' => $date->format('Y-m-d H:i:s') ,
                 "External-reference" => $order_id,
                 'notification-mode' => '300',
-                'success-url' => site_url() . '/wc-api/payment_success/' . $orderIdString,
-                'error-url' => site_url() . '/wc-api/payment_failure/' . $orderIdString,
+                'success-url' => site_url() . '/wc-api/sadded_payment_success/' . $orderIdString,
+                'error-url' => site_url() . '/wc-api/sadded_payment_failure/' . $orderIdString,
 
             );
 
@@ -258,7 +261,7 @@ function sadad_init_gateway_class()
 
         }
 
-        public function payment_success()
+        public function sadded_payment_success()
         {
             // Getting POST data
             $postData = file_get_contents('php://input');
@@ -268,17 +271,15 @@ function sadad_init_gateway_class()
 
             if ($order)
             {
-
                 $order->payment_complete();
                 $order->reduce_order_stock();
                 $order->update_status('processing');
-                global $woocommerce;
 
-                header("Location: " . $redirect_url = $this->get_return_url($order));
+				wp_safe_redirect($this->get_return_url($order));
             }
         }
 
-        public function payment_failure()
+        public function sadded_payment_failure()
         {
             // Getting POST data
             $postData = file_get_contents('php://input');
@@ -289,17 +290,9 @@ function sadad_init_gateway_class()
             if ($order)
             {
                 $order->update_status('failed');
-                wc_add_notice(__('Payment failed.', 'gateway') , 'error');
-                wp_safe_redirect(wc_get_page_permalink('checkout'));
             }
-        }
-
-        /*
-         * In case you need a webhook, like PayPal IPN etc
-        */
-        public function webhook()
-        {
-
+			wc_add_notice(__('Payment failed.', 'gateway') , 'error');
+			wp_safe_redirect(wc_get_page_permalink('checkout'));
         }
     }
 }
