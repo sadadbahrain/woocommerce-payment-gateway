@@ -95,6 +95,14 @@ function sadad_init_gateway_class()
                     'default' => 'yes',
                     'desc_tip' => true,
                 ) ,
+                'secure' => array(
+                    'title' => 'SSL Secure',
+                    'label' => 'Enable secure or unsecure communication',
+                    'type' => 'checkbox',
+                    'description' => 'Enables SSL verification of API calls.',
+                    'default' => 'yes',
+                    'desc_tip' => true,
+                ) ,
                 'api_key' => array(
                     'title' => 'Api Key',
                     'type' => 'text'
@@ -218,6 +226,7 @@ function sadad_init_gateway_class()
             $this->vendor_id = $this->get_option('vendor_id');
             $this->branch_id = $this->get_option('branch_id');
             $this->terminal_id = $this->get_option('terminal_id');
+            $this->secure = $this->get_option('secure');
             $orderIdString = '?orderId=' . $order_id;
             $data = array(
                 'api-key' => $this->api_key,
@@ -250,7 +259,9 @@ function sadad_init_gateway_class()
                 'data_format' => 'body',
             );
             $apiurl = ($this->testmode ? "https://eps-net-uat.sadadbh.com" : "https://eps-net.sadadbh.com") . "/api/v2/web-ven-sdd/epayment/create/";
-            add_filter( 'https_ssl_verify', '__return_false' );
+            if ($this->secure == "no"){
+                add_filter( 'https_ssl_verify', '__return_false' );
+            }
             $response = wp_remote_post($apiurl, $args);
 			$response_body = json_decode(wp_remote_retrieve_body($response), true);
             return array(
