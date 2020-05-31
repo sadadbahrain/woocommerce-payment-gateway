@@ -250,6 +250,7 @@ function sadad_init_gateway_class()
                 'data_format' => 'body',
             );
             $apiurl = ($this->testmode ? "https://eps-net-uat.sadadbh.com" : "https://eps-net.sadadbh.com") . "/api/v2/web-ven-sdd/epayment/create/";
+            add_filter( 'https_ssl_verify', '__return_false' );
             $response = wp_remote_post($apiurl, $args);
 			$response_body = json_decode(wp_remote_retrieve_body($response), true);
             return array(
