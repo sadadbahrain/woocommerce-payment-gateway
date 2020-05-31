@@ -5,7 +5,7 @@
  * Description: SADDED by SADAD Bahrain for card payments
  * Author: Danial Jawaid
  * Author URI: https://www.linkedin.com/in/danial-jawaid-4b527835/
- * Version: 0.1
+ * Version: 0.2
  *
  * License: GNU General Public License v3 or later
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
