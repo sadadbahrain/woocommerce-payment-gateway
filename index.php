@@ -128,7 +128,7 @@ function sadad_init_gateway_class()
          */
         public function payment_fields()
         {
-
+            if($this->description) echo wpautop(wptexturize($this->description));
         }
 
         /*
