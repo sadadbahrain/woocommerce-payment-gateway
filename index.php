@@ -11,6 +11,15 @@
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
 */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+//WooCommerce fallback notice.
+function woocommerce_sadad_missing_wc_notice() {
+	echo '<div class="error"><p><strong>' . sprintf( esc_html__( 'Sadad requires WooCommerce to be installed and active.')).'</strong></p></div>';
+}
+
 add_filter('woocommerce_payment_gateways', 'sadad_add_gateway_class');
 function sadad_add_gateway_class($gateways)
 {
@@ -21,6 +30,15 @@ function sadad_add_gateway_class($gateways)
 add_action('plugins_loaded', 'sadad_init_gateway_class');
 function sadad_init_gateway_class()
 {
+    /*
+      Make sure WooCommerce is active and installed.
+      this prevents WordPress from throwing a critical error when sadad is activated but WooCommerce is deactivated or not installed 
+      or when woocommerce is beginning disabled without deactivated sadad first.
+    */
+    if ( ! class_exists( 'WooCommerce' ) ) {
+		add_action( 'admin_notices', 'woocommerce_sadad_missing_wc_notice' );
+		return;
+	}
 
     class WC_SADAD_Gateway extends WC_Payment_Gateway
     {
@@ -308,4 +326,3 @@ function sadad_init_gateway_class()
         }
     }
 }
-
